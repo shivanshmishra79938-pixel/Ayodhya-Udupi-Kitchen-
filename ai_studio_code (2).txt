@@ -1,0 +1,296 @@
+"use client";
+
+import { motion, useScroll, useTransform } from "framer-motion";
+import { 
+  Phone, MapPin, Clock, Star, Menu, X, ChevronRight, 
+  Leaf, Users, ShieldCheck, Utensils, MessageCircle, ArrowUpRight 
+} from "lucide-react";
+import { useState, useEffect } from "react";
+
+// --- Data ---
+const menuCategories = [
+  { name: "South Indian", items: ["Masala Dosa", "Plain Dosa", "Idli", "Medu Vada", "Uttapam", "South Indian Meals"] },
+  { name: "North Indian", items: ["Veg Thali", "Paneer Butter Masala", "Dal Tadka", "Jeera Rice", "Butter Naan", "North Indian Meals"] }
+];
+
+const testimonials = [
+  { name: "Rajesh Kumar", text: "Best South Indian food in Ayodhya. The Masala Dosa is crisp and authentic!", rating: 5 },
+  { name: "Sneha Sharma", text: "A very clean and family-friendly place. Their North Indian Thali is a must-try.", rating: 5 }
+];
+
+export default function Home() {
+  const [isScrolled, setIsScrolled] = useState(false);
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+
+  useEffect(() => {
+    const handleScroll = () => setIsScrolled(window.scrollY > 50);
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
+
+  return (
+    <div className="relative">
+      {/* Navigation */}
+      <nav className={`fixed w-full z-50 transition-all duration-500 ${isScrolled ? "bg-white/90 backdrop-blur-md py-4 shadow-sm" : "bg-transparent py-8"}`}>
+        <div className="max-w-7xl mx-auto px-6 flex justify-between items-center">
+          <div className="flex flex-col">
+            <span className={`font-playfair text-2xl font-bold tracking-tight ${isScrolled ? "text-secondary" : "text-white"}`}>SRI AYODHYA</span>
+            <span className="text-primary text-[10px] tracking-[0.3em] font-bold">UDUPI KITCHEN</span>
+          </div>
+
+          <div className="hidden lg:flex items-center gap-10">
+            {["Home", "About", "Menu", "Gallery", "Contact"].map((link) => (
+              <a key={link} href={`#${link.toLowerCase()}`} className={`text-sm font-medium uppercase tracking-widest hover:text-primary transition-colors ${isScrolled ? "text-dark" : "text-white"}`}>
+                {link}
+              </a>
+            ))}
+            <a href="tel:+919739059118" className="bg-primary text-white px-8 py-3 rounded-full text-xs font-bold tracking-widest hover:bg-secondary transition-all shadow-lg">
+              BOOK A TABLE
+            </a>
+          </div>
+
+          <button className="lg:hidden text-primary" onClick={() => setMobileMenuOpen(!mobileMenuOpen)}>
+            {mobileMenuOpen ? <X size={30} /> : <Menu size={30} />}
+          </button>
+        </div>
+      </nav>
+
+      {/* Hero Section */}
+      <section id="home" className="relative h-screen flex items-center justify-center overflow-hidden bg-dark">
+        <motion.div 
+          initial={{ scale: 1.1 }} 
+          animate={{ scale: 1 }} 
+          transition={{ duration: 1.5 }}
+          className="absolute inset-0 opacity-60"
+        >
+          <img 
+            src="https://images.unsplash.com/photo-1610192244261-3f33de3f55e4?q=80&w=2000" 
+            className="w-full h-full object-cover" 
+            alt="Premium Indian Food" 
+          />
+        </motion.div>
+        
+        <div className="relative z-10 text-center px-6 max-w-5xl">
+          <motion.span 
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            className="inline-block text-primary tracking-[0.5em] uppercase text-sm mb-6 font-bold"
+          >
+            Welcome to Authentic Dining
+          </motion.span>
+          <motion.h1 
+            initial={{ opacity: 0, y: 30 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.2 }}
+            className="text-5xl md:text-8xl font-playfair text-white mb-8 leading-tight"
+          >
+            Experience the Authentic Taste of <span className="italic text-primary">Ayodhya</span>
+          </motion.h1>
+          <motion.p 
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ delay: 0.4 }}
+            className="text-white/80 text-lg md:text-xl max-w-2xl mx-auto mb-10 font-light"
+          >
+            From Crispy Dosas to Rich North Indian Meals, we serve tradition on a plate.
+          </motion.p>
+          
+          <motion.div 
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.6 }}
+            className="flex flex-wrap justify-center gap-4"
+          >
+            <a href="#menu" className="bg-primary hover:bg-white hover:text-dark text-white px-10 py-5 rounded-full font-bold transition-all flex items-center gap-2">
+              VIEW MENU <ArrowUpRight size={18} />
+            </a>
+            <a href="tel:+919739059118" className="bg-white/10 backdrop-blur-md border border-white/20 text-white px-10 py-5 rounded-full font-bold hover:bg-white hover:text-dark transition-all">
+              CALL NOW
+            </a>
+          </motion.div>
+        </div>
+      </section>
+
+      {/* About Section */}
+      <section id="about" className="py-24 px-6">
+        <div className="max-w-7xl mx-auto grid lg:grid-cols-2 gap-20 items-center">
+          <div className="relative">
+            <div className="absolute -top-10 -left-10 w-40 h-40 bg-primary/10 rounded-full blur-3xl" />
+            <img 
+              src="https://images.unsplash.com/photo-1589301760014-d929f3979dbc?q=80&w=1000" 
+              className="rounded-2xl shadow-2xl relative z-10"
+              alt="Restaurant Interior"
+            />
+            <div className="absolute -bottom-10 -right-10 bg-secondary p-10 rounded-2xl text-white hidden md:block z-20">
+              <p className="text-4xl font-playfair mb-1">4.3</p>
+              <p className="text-xs uppercase tracking-widest opacity-70">Google Rating</p>
+              <div className="flex text-primary mt-2"><Star size={14} fill="currentColor" /> <Star size={14} fill="currentColor" /> <Star size={14} fill="currentColor" /> <Star size={14} fill="currentColor" /> <Star size={14} /></div>
+            </div>
+          </div>
+          
+          <div>
+            <h2 className="text-primary font-playfair italic text-2xl mb-4">Our Heritage</h2>
+            <h3 className="text-4xl md:text-6xl font-playfair text-secondary mb-8">Serving Happiness Since Day One</h3>
+            <p className="text-dark/70 text-lg leading-relaxed mb-8">
+              Sri Ayodhya Udupi Kitchen is one of Ayodhya's favorite vegetarian destinations. Located near the sacred Vasudev Ghat, we blend traditional Udupi flavors with North Indian richness.
+            </p>
+            <div className="grid grid-cols-2 gap-8">
+              <div className="flex flex-col gap-2">
+                <Leaf className="text-primary" />
+                <h4 className="font-bold">100% Pure Veg</h4>
+                <p className="text-sm text-dark/60">Strictly vegetarian kitchen with fresh ingredients.</p>
+              </div>
+              <div className="flex flex-col gap-2">
+                <ShieldCheck className="text-primary" />
+                <h4 className="font-bold">Hygienic</h4>
+                <p className="text-sm text-dark/60">Modern kitchen standards for your safety.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Menu Highlights */}
+      <section id="menu" className="py-24 bg-accent/40">
+        <div className="max-w-7xl mx-auto px-6">
+          <div className="text-center mb-20">
+            <h2 className="text-primary font-playfair italic text-2xl mb-2">Taste of Tradition</h2>
+            <h3 className="text-4xl md:text-5xl font-playfair text-secondary">Our Specialties</h3>
+          </div>
+
+          <div className="grid md:grid-cols-2 gap-16">
+            {menuCategories.map((cat, idx) => (
+              <motion.div 
+                key={idx}
+                whileInView={{ opacity: 1, y: 0 }}
+                initial={{ opacity: 0, y: 30 }}
+                viewport={{ once: true }}
+                className="bg-white p-10 rounded-[40px] shadow-sm hover:shadow-xl transition-all"
+              >
+                <h4 className="text-2xl font-playfair text-primary mb-8 border-b border-accent pb-4 flex justify-between items-center">
+                  {cat.name} <Utensils size={20} className="opacity-20" />
+                </h4>
+                <ul className="space-y-6">
+                  {cat.items.map((item, i) => (
+                    <li key={i} className="flex justify-between items-center group cursor-default">
+                      <span className="text-dark/80 group-hover:text-primary transition-colors">{item}</span>
+                      <div className="flex-1 border-b border-dotted border-dark/10 mx-4 mb-1" />
+                      <span className="text-secondary font-bold">Premium</span>
+                    </li>
+                  ))}
+                </ul>
+              </motion.div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Gallery Section */}
+      <section id="gallery" className="py-24 bg-white">
+        <div className="max-w-[1600px] mx-auto px-6">
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+            {[1,2,3,4].map((i) => (
+              <div key={i} className="h-[400px] overflow-hidden rounded-2xl group">
+                <img 
+                  src={`https://images.unsplash.com/photo-1512621776951-a57141f2eefd?q=80&w=800&sig=${i}`} 
+                  className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700" 
+                  alt="Food Gallery" 
+                />
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Testimonials */}
+      <section className="py-24 bg-secondary text-white overflow-hidden relative">
+         <div className="max-w-7xl mx-auto px-6 relative z-10">
+            <h3 className="text-center font-playfair text-4xl mb-16">Guest Experiences</h3>
+            <div className="grid md:grid-cols-2 gap-8">
+              {testimonials.map((t, idx) => (
+                <div key={idx} className="glass-card p-10 rounded-3xl">
+                  <div className="flex text-primary mb-4">
+                    {[...Array(t.rating)].map((_, i) => <Star key={i} size={16} fill="currentColor" />)}
+                  </div>
+                  <p className="text-xl italic font-light mb-6">"{t.text}"</p>
+                  <p className="font-bold tracking-widest text-primary uppercase text-xs">{t.name}</p>
+                </div>
+              ))}
+            </div>
+         </div>
+      </section>
+
+      {/* Contact Section */}
+      <section id="contact" className="py-24 px-6 bg-accent/30">
+        <div className="max-w-7xl mx-auto">
+          <div className="bg-white rounded-[50px] shadow-2xl overflow-hidden grid lg:grid-cols-2">
+            <div className="p-12 md:p-20">
+              <h3 className="text-4xl font-playfair text-secondary mb-10">Visit Ayodhya's Best</h3>
+              <div className="space-y-10">
+                <div className="flex gap-6">
+                  <MapPin className="text-primary shrink-0" size={28} />
+                  <div>
+                    <h5 className="font-bold mb-1 text-lg">Address</h5>
+                    <p className="text-dark/60 leading-relaxed">
+                      Vasudev Ghat, 28, Paramahamsa Ashram, Hanuman Gufa Road, 
+                      Near Deen Bandhu Netra Chikitsalaya, Ayodhya, UP 224123
+                    </p>
+                  </div>
+                </div>
+                <div className="flex gap-6">
+                  <Phone className="text-primary shrink-0" size={28} />
+                  <div>
+                    <h5 className="font-bold mb-1 text-lg">Phone</h5>
+                    <p className="text-dark/60 leading-relaxed">+91 97390 59118</p>
+                  </div>
+                </div>
+                <div className="flex gap-6">
+                  <Clock className="text-primary shrink-0" size={28} />
+                  <div>
+                    <h5 className="font-bold mb-1 text-lg">Opening Hours</h5>
+                    <p className="text-dark/60 leading-relaxed">Open Daily: 10:00 AM – 11:00 PM</p>
+                  </div>
+                </div>
+              </div>
+              
+              <div className="mt-16 flex flex-wrap gap-4">
+                <a href="https://wa.me/919739059118" className="bg-[#25D366] text-white px-8 py-4 rounded-xl flex items-center gap-2 font-bold shadow-lg hover:scale-105 transition-transform">
+                  <MessageCircle size={20} /> WhatsApp
+                </a>
+                <a href="https://maps.google.com" className="bg-primary text-white px-8 py-4 rounded-xl flex items-center gap-2 font-bold shadow-lg hover:scale-105 transition-transform">
+                  <MapPin size={20} /> Directions
+                </a>
+              </div>
+            </div>
+            <div className="h-[400px] lg:h-auto min-h-[500px] relative">
+              <iframe 
+                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3561.4!2d82.19!3d26.79!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0!2zU3JpIEF5b2RoeWEgVWR1cGkgS2l0Y2hlbg!5e0!3m2!1sen!2sin!4v123456789" 
+                className="w-full h-full border-0 grayscale hover:grayscale-0 transition-all duration-1000"
+                allowFullScreen
+              />
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Footer */}
+      <footer className="bg-dark text-white py-20 px-6 border-t border-white/5">
+        <div className="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-center gap-12">
+          <div className="text-center md:text-left">
+            <h4 className="font-playfair text-3xl mb-2">SRI AYODHYA</h4>
+            <p className="text-primary tracking-[0.3em] text-[10px] font-bold uppercase mb-4">Udupi Kitchen</p>
+            <div className="flex gap-4 justify-center md:justify-start text-white/40">
+              <Star size={20} /> <Users size={20} /> <ShieldCheck size={20} />
+            </div>
+          </div>
+          <p className="text-white/40 text-sm max-w-xs text-center md:text-right">
+            Providing a soulful dining experience in the spiritual capital of India. Authentic vegetarian cuisine for the soul.
+          </p>
+        </div>
+        <div className="max-w-7xl mx-auto mt-20 pt-10 border-t border-white/5 text-center text-white/20 text-[10px] tracking-[0.2em] uppercase">
+          © 2024 Sri Ayodhya Udupi Kitchen. All Rights Reserved.
+        </div>
+      </footer>
+    </div>
+  );
+}

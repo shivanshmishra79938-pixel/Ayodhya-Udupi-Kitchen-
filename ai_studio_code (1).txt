@@ -1,0 +1,26 @@
+import type { Metadata } from "next";
+import { Inter, Playfair_Display } from "next/font/google";
+import "./globals.css";
+
+const inter = Inter({ subsets: ["latin"], variable: "--font-inter" });
+const playfair = Playfair_Display({ subsets: ["latin"], variable: "--font-playfair" });
+
+export const metadata: Metadata = {
+  title: "Sri Ayodhya Udupi Kitchen | Authentic South & North Indian Pure Veg",
+  description: "Experience the finest vegetarian dining in Ayodhya. Serving authentic South Indian and North Indian delicacies near Vasudev Ghat.",
+  keywords: "Restaurant in Ayodhya, Pure Veg Ayodhya, South Indian Ayodhya, Udupi Kitchen, Best Restaurant near Hanuman Gufa",
+};
+
+export default function RootLayout({
+  children,
+}: {
+  children: React.ReactNode;
+}) {
+  return (
+    <html lang="en" className="scroll-smooth">
+      <body className={`${inter.variable} ${playfair.variable} font-sans bg-background text-dark`}>
+        {children}
+      </body>
+    </html>
+  );
+}
